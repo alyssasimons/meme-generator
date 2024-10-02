@@ -4,13 +4,25 @@ import memesData from "../memesData.js"
 
 export default function Meme() {
 
-    const [meme, setMeme] = useState("")
+    const [meme, setMeme] = useState({
+        topText: "",
+        bottomText: "",
+        randomImage: "https://th.bing.com/th/id/OIP.V0npe_Q1op_2gN92DIXnwAHaH3?rs=1&pid=ImgDetMain"
+    })
+
+    const [allMemeImages, setAllMemeImages] = React.useState(memesData)
 
     function getMeme() {
-        const memeArray = memesData.data.memes
+        const memeArray = allMemeImages.data.memes
         const randomNumber = Math.floor(Math.random() * memeArray.length)
-        setMeme(memeArray[randomNumber].url)
-        console.log(memeUrl)
+        const url = memeArray[randomNumber].url
+        console.log(url)
+        setMeme(prevState => {
+            return {
+                ...prevState,
+                randomImage: url
+            }
+        })
     }
 
     return (
@@ -30,7 +42,7 @@ export default function Meme() {
                 type="submit" value="generate meme image"></input>
             </div>
             <div className="memeImageContainer">
-                <img className="meme" src={meme} alt="Random meme image"/>
+                <img className="meme" src={meme.randomImage} alt="Random meme image"/>
             </div>
         </main>
     )
